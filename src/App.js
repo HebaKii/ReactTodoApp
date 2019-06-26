@@ -6,30 +6,38 @@ import Tasks from './Component/Tasks/Tasks'
 class App extends React.Component{
   constructor() {
     super()
-    this.state={
-      tasks:[] ,
-      currentValue :{text:'',key:'' }
+    this.state = {
+      // If there is nothing in the localStorage,
+      // then, JSON.parse(localStorage.getItem('tasks')) will be equal null
+      tasks: JSON.parse(localStorage.getItem('tasks')) || [],
+      currentValue: { text: '', key: '' }
     }
   }
 
 
   addTask =(e)=>{
     e.preventDefault()
-    const newTask=this.state.currentValue
-   {
-      
+    const newTask = this.state.currentValue
+  //  {
+    const tasks = [...this.state.tasks, newTask]
 
-      const tasks=[...this.state.tasks,newTask]
+    localStorage.setItem('tasks', JSON.stringify(tasks));
+    // localStorage.setItem('newTask', "");
 
-      // localStorage.setItem('tasks',JSON.stringify(tasks));
-      // localStorage.setItem('newTask', "");
+    this.setState({
+      tasks: tasks,
+      currentValue: { 
+        text: '',
+        key: ''
+      }
+    })
+    // }
+  }
 
-      this.setState({
-        tasks:tasks,
-        currentValue:{text:'' , key:''
-        }
-      })
-    }
+  deleteTasks = () => {
+    this.setState({
+      tasks: []
+    })
   }
 
   
@@ -43,16 +51,19 @@ class App extends React.Component{
   // }
 
   handleChange =(e)=>{
-    const taskValue =e.target.value
-    const currentValue= {text : taskValue ,key:Date.now()}
+    const taskValue = e.target.value
 
+    const currentValue = { 
+      text: taskValue,
+      key: Date.now()
+    }
 
     this.setState({
       currentValue,
     })
   }
 
-  inputValue =React.createRef();
+  // inputValue = React.createRef();
 
 
   // toSaveUpdates =() =>{
@@ -71,17 +82,19 @@ class App extends React.Component{
     <div>
     <h1>Hellloooooo!!!!</h1>
 
-    <TasksList addTask={this.addTask}
-               currentValue={this.currentValue}
-               inputValue={this.inputValue}
-               handleChange={this.handleChange}
-               toSaveUpdates={this.toSaveUpdates}
-               saved={this.saved}
-               tasks={this.state.tasks}
-               
+    <TasksList
+      addTask={this.addTask}
+      currentValue={this.state.currentValue.text}
+      //  inputValue={this.inputValue}
+      handleChange={this.handleChange}
+      //  toSaveUpdates={this.toSaveUpdates}
+      //  saved={this.saved}
+      tasks={this.state.tasks}
+      deleteTasks={this.deleteTasks}
     />
-    <Tasks inputTasks={this.state.tasks}
-           deleteTask={this.deleteTask}
+    <Tasks
+      inputTasks={this.state.tasks}
+      deleteTask={this.deleteTask}
     />
     </div>
   );
