@@ -1,4 +1,5 @@
 import React from 'react'
+import './Tasks.css'
 
 
 class Tasks extends React.Component{

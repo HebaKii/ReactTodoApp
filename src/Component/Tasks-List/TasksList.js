@@ -1,4 +1,5 @@
 import React from 'react';
+import './TasksList.css'
 
 class TasksList extends React.Component{
 
@@ -16,8 +17,10 @@ class TasksList extends React.Component{
                     onChange={this.props.handleChange}
                     //    saved={this.props.saved}
                 />
+                {/* <button type="submit" >Add</button> */}
+                <button type="button" onClick={this.clearStorage}>Clear All</button>
                 <button type="submit" >Add</button>
-                <button type="button" onClick={this.clearStorage}>Clear</button>
+                
             </form>
         )
 
